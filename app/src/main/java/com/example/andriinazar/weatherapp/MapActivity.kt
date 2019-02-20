@@ -2,7 +2,6 @@ package com.example.andriinazar.weatherapp
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -10,7 +9,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.GoogleMap.OnMapClickListener
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -55,11 +53,19 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                         ?.subscribe(
                                 { result ->
                                     var info: List<CityWeatherData> = result.data
+                                    val dbHelper = DatabaseMenager(this@MapActivity).weatherDao
+                                    for (data in info) {
+                                        dbHelper?.save(CityWeatherDataDB(data))
+                                    }
+
+                                    val restore : List<CityWeatherDataDB>? = dbHelper?.getAllCitiesWeatherInfo()
+
                                     val i = 0
                                     //showResult(result.query.searchinfo.totalhits)
                                     },
-                                { error -> Toast.makeText(this@MapActivity, error.message, Toast.LENGTH_LONG).show()}
+                                { error ->
+                                    Toast.makeText(this@MapActivity, error.message, Toast.LENGTH_LONG).show()
+                                }
                         )
     }
-
 }

@@ -1,6 +1,7 @@
-package com.example.andriinazar.weatherapp
+package com.example.andriinazar.weatherapp.database
 
 import android.arch.persistence.room.*
+import com.example.andriinazar.weatherapp.database.CityWeatherDataDB
 
 @Dao
 interface WeatherDao {
@@ -19,4 +20,7 @@ interface WeatherDao {
 
     @Query("SELECT * FROM weather_info")
     fun getAllCitiesWeatherInfo() : List<CityWeatherDataDB>
+
+    @Query("SELECT * FROM weather_info where ob_time < (select MAX(ob_time) from weather_info)")
+    fun getLastWeatherInfo() : CityWeatherDataDB
 }

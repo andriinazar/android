@@ -1,4 +1,4 @@
-package com.example.andriinazar.weatherapp
+package com.example.andriinazar.weatherapp.api
 
 data class Weather(
         val code: String,

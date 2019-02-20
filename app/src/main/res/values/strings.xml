@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">WeatherApp</string>
+    <string name="app_name">WeatherAppKotlin</string>
+    <string name="internet_connection_error">No Internet connection. Weather data load from cache</string>
+    <string name="data_getting_error">Data Error</string>
+    <string name="data_getting_message">No Internet connection and weather data in cache</string>
+    <string name="close_app">Close App</string>
 </resources>

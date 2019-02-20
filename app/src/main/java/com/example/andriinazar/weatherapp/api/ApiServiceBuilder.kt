@@ -1,5 +1,6 @@
-package com.example.andriinazar.weatherapp
+package com.example.andriinazar.weatherapp.api
 
+import com.example.andriinazar.weatherapp.BuildConfig
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.reactivex.disposables.Disposable
@@ -61,8 +62,8 @@ class ApiServiceBuilder {
                     .build()
         }
 
-        val weatherApiServise by lazy {
-            ApiServiceBuilder.create()
+        val weatherApiService by lazy {
+            create()
         }
 
         var disposable: Disposable? = null

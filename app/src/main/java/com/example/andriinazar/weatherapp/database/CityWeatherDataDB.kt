@@ -1,18 +1,18 @@
-package com.example.andriinazar.weatherapp
+package com.example.andriinazar.weatherapp.database
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 import android.arch.persistence.room.TypeConverters
+import com.example.andriinazar.weatherapp.api.CityWeatherData
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import java.util.*
 
 @Entity(tableName = "weather_info")
 data class CityWeatherDataDB (
         @ColumnInfo(name = "app_temp") var app_temp: Double,
-        @PrimaryKey var city_name: String,
+        @PrimaryKey
+        @ColumnInfo(name = "city_name") var city_name: String,
         @ColumnInfo(name = "clouds") var clouds: Double,
         @ColumnInfo(name = "country_code") var country_code: String,
         @ColumnInfo(name = "datetime") var datetime: String,

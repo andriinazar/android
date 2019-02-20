@@ -1,5 +1,6 @@
-package com.example.andriinazar.weatherapp
+package com.example.andriinazar.weatherapp.database
 
+import com.example.andriinazar.weatherapp.api.Weather
 import com.google.gson.Gson
 
 class DatabaseTypeConverter {

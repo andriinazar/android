@@ -30,7 +30,7 @@ data class CityWeatherDataDB (
         @ColumnInfo(name = "pres") var pres: Double,
         @ColumnInfo(name = "rh") var rh: Double,
         @ColumnInfo(name = "slp") var slp: Double,
-        @ColumnInfo(name = "snow") var snow: Int,
+        @ColumnInfo(name = "snow") var snow: Double,
         @ColumnInfo(name = "solar_rad") var solar_rad: Double,
         @ColumnInfo(name = "state_code") var state_code: String,
         @ColumnInfo(name = "station") var station: String,

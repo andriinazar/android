@@ -4,4 +4,8 @@
     <string name="data_getting_error">Data Error</string>
     <string name="data_getting_message">No Internet connection and weather data in cache</string>
     <string name="close_app">Close App</string>
+    <string name="country_header">Country:</string>
+    <string name="city_header">City:</string>
+    <string name="temperature_header">Temperature:</string>
+    <string name="pressure_header">Pressure:</string>
 </resources>

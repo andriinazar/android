@@ -1,9 +1,12 @@
 package com.example.andriinazar.weatherapp
 
 import android.content.Context
-import android.content.SharedPreferences
 import com.example.andriinazar.weatherapp.database.CityWeatherDataDB
+import com.example.andriinazar.weatherapp.datamanager.DataManager
+import com.example.andriinazar.weatherapp.datamanager.IWeatherData
 import com.google.android.gms.maps.model.LatLng
+import java.util.*
+
 
 class MapPresenterImpl (context: Context, presenter: IMapPresenter) {
 
@@ -29,28 +32,35 @@ class MapPresenterImpl (context: Context, presenter: IMapPresenter) {
         }
 
     }
-    val dataManager by lazy {
-        DataManager(context,weatherDataListener)
+    private val dataManager by lazy {
+        DataManager(context, weatherDataListener)
     }
 
-    fun getWeatherData(coordinate: LatLng, language: String?) {
-        if (!PreferencesHelper.firstRun && !dataManager.chakIntrnerConnction()) {
+    fun getWeatherData(coordinate: LatLng) {
+        if (!PreferencesHelper.firstRun && !dataManager.checkInternetConnection()) {
             mapPresenter.onDataUnavailable()
         } else{
-            dataManager.getWeatherData(coordinate, language)
+            dataManager.getWeatherData(coordinate, getDeviceCountryCode())
         }
     }
 
     fun getWeatherFromCache() {
-        if (!PreferencesHelper.firstRun && !dataManager.chakIntrnerConnction()) {
+        if (!PreferencesHelper.firstRun && !dataManager.checkInternetConnection()) {
             mapPresenter.onDataUnavailable()
         } else {
-            dataManager.getSaveData()
-        }
+            // send data from db to activity
+            dataManager.getDataFromDb()
 
+            // update last data from server
+            val lastWeatherData = dataManager.getLastWeatherInfo()
+            if (lastWeatherData != null) {
+                val lastCoordinates = LatLng(lastWeatherData.lat, lastWeatherData.lon)
+                getWeatherData(lastCoordinates)
+            }
+        }
     }
 
-
-
-
+    private fun getDeviceCountryCode() : String {
+        return Locale.getDefault().country
+    }
 }

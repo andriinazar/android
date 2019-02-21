@@ -1,4 +1,4 @@
-package com.example.andriinazar.weatherapp
+package com.example.andriinazar.weatherapp.datamanager
 
 import com.example.andriinazar.weatherapp.database.CityWeatherDataDB
 

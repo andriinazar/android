@@ -19,6 +19,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private var presenterImpl: MapPresenterImpl? = null
 
+    private var weatherDialog: WeatherDialog? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
@@ -31,7 +33,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         presenterImpl?.getWeatherFromCache()
     }
 
-    var presenter = object : IMapPresenter {
+    private var presenter = object : IMapPresenter {
         override fun onUpdateDataUnavaible() {
             showInternetConnectionError()
         }
@@ -41,18 +43,18 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         override fun onWeatherReceive(weather: CityWeatherDataDB?) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
         }
 
         override fun onShowError(error: String?) {
-            Toast.makeText(this@MapActivity, getString(R.string.internet_connection_error), Toast.LENGTH_LONG).show()
+            Toast.makeText(this@MapActivity, error, Toast.LENGTH_LONG).show()
         }
 
     }
 
     private fun initListeners() {
         googleMap?.setOnMapClickListener {location ->
-            presenterImpl?.getWeatherData(location, "ua")
+            presenterImpl?.getWeatherData(location)
         }
 
     }
@@ -66,8 +68,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         googleMap = map
         initListeners()
         val lviv = LatLng(49.83, 24.02)
-        googleMap?.addMarker(MarkerOptions().position(lviv))
         googleMap?.moveCamera(CameraUpdateFactory.newLatLng(lviv))
+        googleMap?.animateCamera(CameraUpdateFactory.zoomTo(8f))
     }
 
     private fun showInternetConnectionError() {
@@ -86,5 +88,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val dialog: AlertDialog = builder.create()
         dialog.show()
     }
+
+    private fun showWeaterDialog(weather: CityWeatherDataDB?) {
+        if (weatherDialog == null) {
+            weatherDialog = WeatherDialog(this@MapActivity, weather)
+        }
+    }
+
 
 }

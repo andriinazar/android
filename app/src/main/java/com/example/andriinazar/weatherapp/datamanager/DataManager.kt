@@ -1,4 +1,4 @@
-package com.example.andriinazar.weatherapp
+package com.example.andriinazar.weatherapp.datamanager
 
 import android.content.Context
 import com.example.andriinazar.weatherapp.api.CityWeatherData
@@ -7,7 +7,6 @@ import com.example.andriinazar.weatherapp.api.NetworkManager
 import com.example.andriinazar.weatherapp.api.WeatherInfo
 import com.example.andriinazar.weatherapp.database.CityWeatherDataDB
 import com.example.andriinazar.weatherapp.database.DatabaseManager
-import com.example.andriinazar.weatherapp.database.DatabaseTypeConverter
 import com.google.android.gms.maps.model.LatLng
 import retrofit2.Response
 
@@ -38,9 +37,9 @@ class DataManager(context: Context, dataListener: IWeatherData?) {
             }
 
             override fun onResponseSuccess(data: Response<WeatherInfo>?) {
-                val responce : List<CityWeatherData>? = data?.body()?.data
-                if (responce != null) {
-                    for (info in responce) {
+                val response : List<CityWeatherData>? = data?.body()?.data
+                if (response != null) {
+                    for (info in response) {
                         val weatherInfo = CityWeatherDataDB(info)
                         weatherDataListener?.onDataReceive(weatherInfo)
                         saveDataToDB(weatherInfo)
@@ -50,9 +49,9 @@ class DataManager(context: Context, dataListener: IWeatherData?) {
         })
     }
 
-    private fun getDataFromDb() {
-        val weatherInfo = databaseManager.getLastWeatherInfo()
-        if (weatherInfo!= null) {
+   fun getDataFromDb() {
+        val weatherInfo: CityWeatherDataDB? = databaseManager.getLastWeatherInfo()
+        if (weatherInfo != null) {
             weatherDataListener?.onDataReceive(weatherInfo)
         }
     }
@@ -61,11 +60,11 @@ class DataManager(context: Context, dataListener: IWeatherData?) {
         databaseManager.saveWeatherInfo(info)
     }
 
-    public fun getSaveData() {
-        getDataFromDb()
+    fun getLastWeatherInfo() : CityWeatherDataDB? {
+         return databaseManager.getLastWeatherInfo()
     }
 
-    public fun chakIntrnerConnction() : Boolean {
+    fun checkInternetConnection() : Boolean {
         return networkManager.checkInternetConnection()
     }
 }

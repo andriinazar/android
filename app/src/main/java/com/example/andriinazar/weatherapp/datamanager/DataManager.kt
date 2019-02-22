@@ -67,4 +67,16 @@ class DataManager(context: Context, dataListener: IWeatherData?) {
     fun checkInternetConnection() : Boolean {
         return networkManager.checkInternetConnection()
     }
+
+    fun clearOldData() {
+        val cacheWeather = databaseManager.getAllData()
+        if (cacheWeather != null) {
+            val cacheSize = cacheWeather.size
+            if (cacheSize > 50) {
+                for (i in 0..cacheSize - 50 ) {
+                    databaseManager.getOldWeatherInfo()?.let { databaseManager.deleteWeatherInfo(it) }
+                }
+            }
+        }
+    }
 }

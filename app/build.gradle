@@ -20,11 +20,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "string", "google_map_key", "AIzaSyBPjpfoJeyl1nafVW3welstFxmkWIgg6kI"
             buildConfigField "String", "BASE_URL", "\"https://api.weatherbit.io/v2.0/\""
+            buildConfigField "String", "BASE_ICON_URL", "\"https://www.weatherbit.io/static/img/icons/\""
             buildConfigField "String", "WEATHER_API_KEY", "\"78bc1384e09a44ed9d2e65e6722d8747\""
         }
         debug {
             resValue "string", "google_map_key", "AIzaSyBPjpfoJeyl1nafVW3welstFxmkWIgg6kI"
             buildConfigField "String", "BASE_URL", "\"https://api.weatherbit.io/v2.0/\""
+            buildConfigField "String", "BASE_ICON_URL", "\"https://www.weatherbit.io/static/img/icons/\""
             buildConfigField "String", "WEATHER_API_KEY", "\"78bc1384e09a44ed9d2e65e6722d8747\""
         }
     }
@@ -44,6 +46,7 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:2.5.0"
     implementation "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
     implementation "com.squareup.retrofit2:converter-gson:2.5.0"
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     implementation "android.arch.persistence.room:runtime:$room_version"
     kapt "android.arch.persistence.room:compiler:$room_version"

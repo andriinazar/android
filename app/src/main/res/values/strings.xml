@@ -8,4 +8,7 @@
     <string name="city_header">City:</string>
     <string name="temperature_header">Temperature:</string>
     <string name="pressure_header">Pressure:</string>
+    <string name="wind_speed_header">Wind speed:</string>
+    <string name="wind_direction_header">Wind direction:</string>
+    <string name="last_update_header">Last observation time:</string>
 </resources>

@@ -20,4 +20,16 @@ class DatabaseManager (context: Context) {
         weatherDao?.update(info)
     }
 
+    fun getAllData(): List<CityWeatherDataDB>? {
+        return weatherDao?.getAllCitiesWeatherInfo()
+    }
+
+    fun deleteWeatherInfo(info: CityWeatherDataDB) {
+        weatherDao?.delete(info)
+    }
+
+    fun getOldWeatherInfo(): CityWeatherDataDB? {
+        return weatherDao?.getOldWeatherInfo()
+    }
+
 }

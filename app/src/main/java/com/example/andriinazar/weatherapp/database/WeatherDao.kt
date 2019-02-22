@@ -21,6 +21,9 @@ interface WeatherDao {
     @Query("SELECT * FROM weather_info")
     fun getAllCitiesWeatherInfo() : List<CityWeatherDataDB>
 
-    @Query("SELECT * FROM weather_info where ob_time < (select MAX(ob_time) from weather_info)")
+    @Query("SELECT * FROM weather_info where update_time = (select MAX(update_time) from weather_info)")
     fun getLastWeatherInfo() : CityWeatherDataDB
+
+    @Query("SELECT * FROM weather_info where update_time = (select MIN(update_time) from weather_info)")
+    fun getOldWeatherInfo() : CityWeatherDataDB
 }

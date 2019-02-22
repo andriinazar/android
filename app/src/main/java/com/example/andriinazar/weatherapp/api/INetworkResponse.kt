@@ -1,6 +1,5 @@
 package com.example.andriinazar.weatherapp.api
 
-import io.reactivex.Observable
 import retrofit2.Response
 
 interface INetworkResponse {

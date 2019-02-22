@@ -3,6 +3,7 @@ package com.example.andriinazar.weatherapp
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
+import android.view.View
 import android.widget.Toast
 import com.example.andriinazar.weatherapp.database.CityWeatherDataDB
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -10,7 +11,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.activity_map.*
 
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
@@ -24,6 +25,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
+        showProgress()
         initGoogleMap()
     }
 
@@ -31,22 +33,27 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onStart()
         presenterImpl = MapPresenterImpl(this@MapActivity, presenter)
         presenterImpl?.getWeatherFromCache()
+        showProgress()
     }
 
     private var presenter = object : IMapPresenter {
         override fun onUpdateDataUnavaible() {
+            hideProgress()
             showInternetConnectionError()
         }
 
         override fun onDataUnavailable() {
+            hideProgress()
             showGettingDataErrorDialog()
         }
 
         override fun onWeatherReceive(weather: CityWeatherDataDB?) {
-
+            showWeatherDialog(weather)
+            hideProgress()
         }
 
         override fun onShowError(error: String?) {
+            hideProgress()
             Toast.makeText(this@MapActivity, error, Toast.LENGTH_LONG).show()
         }
 
@@ -54,6 +61,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun initListeners() {
         googleMap?.setOnMapClickListener {location ->
+            showProgress()
             presenterImpl?.getWeatherData(location)
         }
 
@@ -70,6 +78,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val lviv = LatLng(49.83, 24.02)
         googleMap?.moveCamera(CameraUpdateFactory.newLatLng(lviv))
         googleMap?.animateCamera(CameraUpdateFactory.zoomTo(8f))
+        hideProgress()
     }
 
     private fun showInternetConnectionError() {
@@ -89,11 +98,32 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         dialog.show()
     }
 
-    private fun showWeaterDialog(weather: CityWeatherDataDB?) {
+    private fun showWeatherDialog(weather: CityWeatherDataDB?) {
         if (weatherDialog == null) {
-            weatherDialog = WeatherDialog(this@MapActivity, weather)
+            weatherDialog = WeatherDialog.newInstance(weather)
+            weatherDialog?.setDismissListener(object : WeatherDialog.OnDismissListener {
+                override fun onDismiss() {
+                    weatherDialog = null
+                }
+
+            })
+            weatherDialog?.show(supportFragmentManager.beginTransaction(), "weather dialog")
+
+        } else {
+            weatherDialog?.setupData(weather)
         }
     }
 
+    private fun showProgress() {
+        if (pb_weather_progress.visibility == View.GONE) {
+            pb_weather_progress.visibility = View.VISIBLE
+        }
+    }
+
+    private fun hideProgress() {
+        if (pb_weather_progress.visibility == View.VISIBLE) {
+            pb_weather_progress.visibility = View.GONE
+        }
+    }
 
 }

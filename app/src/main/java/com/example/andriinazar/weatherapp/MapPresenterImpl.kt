@@ -57,7 +57,12 @@ class MapPresenterImpl (context: Context, presenter: IMapPresenter) {
                 val lastCoordinates = LatLng(lastWeatherData.lat, lastWeatherData.lon)
                 getWeatherData(lastCoordinates)
             }
+            clearOldData()
         }
+    }
+
+    private fun clearOldData() {
+        dataManager.clearOldData()
     }
 
     private fun getDeviceCountryCode() : String {

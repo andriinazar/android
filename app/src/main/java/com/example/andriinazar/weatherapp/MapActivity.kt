@@ -29,11 +29,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         initGoogleMap()
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         presenterImpl = MapPresenterImpl(this@MapActivity, presenter)
         presenterImpl?.getWeatherFromCache()
         showProgress()
+
     }
 
     private var presenter = object : IMapPresenter {

@@ -50,13 +50,17 @@ class MapPresenterImpl (context: Context, presenter: IMapPresenter) {
         } else {
             // send data from db to activity
             dataManager.getDataFromDb()
-
-            // update last data from server
-            val lastWeatherData = dataManager.getLastWeatherInfo()
-            if (lastWeatherData != null) {
-                val lastCoordinates = LatLng(lastWeatherData.lat, lastWeatherData.lon)
-                getWeatherData(lastCoordinates)
+            if (dataManager.checkInternetConnection()) {
+                // update last data from server
+                val lastWeatherData = dataManager.getLastWeatherInfo()
+                if (lastWeatherData != null) {
+                    val lastCoordinates = LatLng(lastWeatherData.lat, lastWeatherData.lon)
+                    getWeatherData(lastCoordinates)
+                }
+            } else {
+                mapPresenter.onUpdateDataUnavaible()
             }
+
             clearOldData()
         }
     }

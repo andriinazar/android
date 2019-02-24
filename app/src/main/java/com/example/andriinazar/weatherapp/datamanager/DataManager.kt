@@ -26,6 +26,7 @@ class DataManager(context: Context, dataListener: IWeatherData?) {
         if (networkManager.checkInternetConnection()) {
             getDataFromServer(coordinate, language)
         } else {
+            weatherDataListener?.onInternetConnectionError()
             getDataFromDb()
         }
     }

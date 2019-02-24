@@ -27,11 +27,11 @@ class WeatherDialog : AppCompatDialogFragment() {
         listener = dismissListener
     }
 
-    var weatherInfo: CityWeatherDataDB? = null
+    private var weatherInfo: CityWeatherDataDB? = null
 
     //  dialog view
     private val dialogView: View by lazy {
-        LayoutInflater.from(context).inflate(R.layout.weather_dialog_view, null)
+        LayoutInflater.from(activity).inflate(R.layout.weather_dialog_view, null)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
